@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		27A93B0D1C145AA7000C496B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A93B0C1C145AA7000C496B /* Board.swift */; };
-		27C8B0171C0F2C7B005BB0D4 /* MonstBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C8B0161C0F2C7B005BB0D4 /* MonstBoardController.swift */; };
+		27A93B0F1C1471D7000C496B /* MonstController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A93B0E1C1471D7000C496B /* MonstController.swift */; };
+		27CB5BA21C148A86003C66D9 /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB5BA11C148A86003C66D9 /* Quest.swift */; };
+		27CB5BA41C149231003C66D9 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CB5BA31C149231003C66D9 /* StringUtils.swift */; };
 		27D7518B1C04024400D5FD23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D7518A1C04024400D5FD23 /* AppDelegate.swift */; };
 		27D7518D1C04024400D5FD23 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D7518C1C04024400D5FD23 /* ViewController.swift */; };
 		27D751901C04024400D5FD23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27D7518E1C04024400D5FD23 /* Main.storyboard */; };
@@ -39,7 +41,9 @@
 /* Begin PBXFileReference section */
 		061ADF72F1DA8DE56ED96D88 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		27A93B0C1C145AA7000C496B /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		27C8B0161C0F2C7B005BB0D4 /* MonstBoardController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonstBoardController.swift; sourceTree = "<group>"; };
+		27A93B0E1C1471D7000C496B /* MonstController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonstController.swift; sourceTree = "<group>"; };
+		27CB5BA11C148A86003C66D9 /* Quest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
+		27CB5BA31C149231003C66D9 /* StringUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		27D751871C04024400D5FD23 /* Monst-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Monst-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D7518A1C04024400D5FD23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27D7518C1C04024400D5FD23 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -114,8 +118,10 @@
 				27D751911C04024400D5FD23 /* Assets.xcassets */,
 				27D751931C04024400D5FD23 /* LaunchScreen.storyboard */,
 				27D751961C04024400D5FD23 /* Info.plist */,
-				27C8B0161C0F2C7B005BB0D4 /* MonstBoardController.swift */,
 				27A93B0C1C145AA7000C496B /* Board.swift */,
+				27A93B0E1C1471D7000C496B /* MonstController.swift */,
+				27CB5BA11C148A86003C66D9 /* Quest.swift */,
+				27CB5BA31C149231003C66D9 /* StringUtils.swift */,
 			);
 			path = "Monst-ios";
 			sourceTree = "<group>";
@@ -340,10 +346,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27CB5BA41C149231003C66D9 /* StringUtils.swift in Sources */,
+				27CB5BA21C148A86003C66D9 /* Quest.swift in Sources */,
 				27D7518D1C04024400D5FD23 /* ViewController.swift in Sources */,
-				27C8B0171C0F2C7B005BB0D4 /* MonstBoardController.swift in Sources */,
 				27A93B0D1C145AA7000C496B /* Board.swift in Sources */,
 				27D7518B1C04024400D5FD23 /* AppDelegate.swift in Sources */,
+				27A93B0F1C1471D7000C496B /* MonstController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
