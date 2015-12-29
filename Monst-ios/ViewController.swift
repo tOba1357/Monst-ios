@@ -12,7 +12,9 @@ class ViewController: UIViewController {
     let questNameLabel = UITextField()
     let boardListLabel = UILabel()
     let selectedBoardLabel = UILabel()
+    let isSearchLabel = UILabel()
     let startSerachButton = UIButton()
+    let stopButton = UIButton()
     let webView = UIWebView()
     let boardList = [
         Board(name:"運極限定", url: "http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/3"),
@@ -23,34 +25,48 @@ class ViewController: UIViewController {
     ]
     var selectedBoard: Board?
     var monstController: MonstController?
+    
+    let baseColor = UIColor.whiteColor()
+    let mainColor = UIColor.init(red: 0, green: 0.3, blue: 1, alpha: 0.8)
+    let accentColor = UIColor.orangeColor()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let viewWidht = self.view.frame.width
         let viewHeight = self.view.frame.height
         
-        titleLabel.frame = CGRect(x: 10, y: 0, width: viewWidht, height: 70)
+        titleLabel.frame = CGRect(x: 0, y: 20, width: viewWidht, height: 70)
         titleLabel.text = "モンスト~クエスト検索~"
         titleLabel.font = UIFont.boldSystemFontOfSize(CGFloat(30))
+        titleLabel.backgroundColor = mainColor
+        titleLabel.textColor = baseColor
         self.view.addSubview(titleLabel)
 
-        questNameLabel.frame = CGRect(x: 10, y: 80, width: (viewWidht - 20), height: 50)
+        questNameLabel.frame = CGRect(x: 10, y: 95, width: (viewWidht - 20), height: 50)
         questNameLabel.placeholder = "クエスト名"
         questNameLabel.layer.borderWidth = 1
+        questNameLabel.layer.borderColor = mainColor.CGColor
         self.view.addSubview(questNameLabel)
         
         
         boardListLabel.frame = CGRect(x: 30, y: 140, width: (viewWidht - 60), height: 50)
         boardListLabel.text = "掲示板リスト"
         boardListLabel.textAlignment = .Left
+        boardListLabel.textColor = mainColor
         boardListLabel.font = UIFont.boldSystemFontOfSize(CGFloat(20))
         self.view.addSubview(boardListLabel)
         
+        stopButton.frame = CGRect(x: 0, y: (viewHeight - 120), width: viewWidht, height: 60)
+        stopButton.setTitle("STOP", forState: .Normal)
+        stopButton.addTarget(self, action: "onCLickStopButton:", forControlEvents: .TouchUpInside)
+        stopButton.hidden = true
+        stopButton.backgroundColor = UIColor.redColor()
+        self.view.addSubview(stopButton)
         
-        startSerachButton.frame = CGRect(x: 0, y: (viewHeight - 70), width: viewWidht, height: 70)
+        startSerachButton.frame = CGRect(x: 0, y: (viewHeight - 60), width: viewWidht, height: 60)
         startSerachButton.setTitle("検索開始！", forState: .Normal)
         startSerachButton.addTarget(self, action: "onClickStartSearchButton:", forControlEvents: .TouchUpInside)
-        startSerachButton.backgroundColor = UIColor.blackColor()
+        startSerachButton.backgroundColor = mainColor
         self.view.addSubview(startSerachButton)
         
         webView.frame = self.view.bounds
@@ -58,7 +74,7 @@ class ViewController: UIViewController {
         self.view.addSubview(webView)
         
         setBoardButtons(190, buttom: (viewHeight - 200), width: viewWidht - 40)
-        self.monstController = MonstController(webView: webView)
+        self.monstController = MonstController(webView: webView, isSearchLabel: isSearchLabel, stopButton: stopButton)
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,7 +105,7 @@ class ViewController: UIViewController {
             let boardButton = UIButton()
             boardButton.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
             height += addHeight
-            boardButton.setTitleColor(UIColor.orangeColor(), forState:  UIControlState.Normal)
+            boardButton.setTitleColor(accentColor, forState:  UIControlState.Normal)
             boardButton.setTitle(board.name, forState: .Normal)
             boardButton.contentHorizontalAlignment = .Left
             boardButton.addTarget(self, action: "setSelectedBoardName:", forControlEvents: .TouchUpInside);
@@ -97,9 +113,17 @@ class ViewController: UIViewController {
             board.setButton(boardButton)
         }
         selectedBoardLabel.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
-        selectedBoardLabel.font = UIFont.boldSystemFontOfSize(CGFloat(20))
+        selectedBoardLabel.font = UIFont.systemFontOfSize(CGFloat(20))
         selectedBoardLabel.text = "選択中："
+        selectedBoardLabel.textColor = mainColor
         self.view.addSubview(selectedBoardLabel)
+        height += addHeight
+
+        isSearchLabel.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
+        isSearchLabel.font = UIFont.boldSystemFontOfSize(CGFloat(20))
+        isSearchLabel.textColor = accentColor
+        isSearchLabel.textAlignment = .Center
+        self.view.addSubview(isSearchLabel)
     }
    
     func setSelectedBoardName(sender: UIButton) {
@@ -113,6 +137,8 @@ class ViewController: UIViewController {
         }
         self.view.endEditing(true)
     }
+    
+    func onCLickStopButton(sender: UIButton) {
+        self.monstController!.stopTimer()
+    }
 }
-
-//
