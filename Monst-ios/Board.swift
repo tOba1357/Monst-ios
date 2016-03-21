@@ -6,11 +6,9 @@
 //  Copyright © 2015年 Tatsuya Oba. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class Board {
-    var button: UIButton?
     let name: String
     let url: String
 
@@ -18,13 +16,4 @@ class Board {
         self.name = name
         self.url = url
     }
-    
-    func setButton(button: UIButton) {
-        self.button = button
-    }
-    
-    func getButton() -> UIButton? {
-        return self.button
-    }
-
 }

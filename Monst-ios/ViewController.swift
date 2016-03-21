@@ -26,10 +26,11 @@ class ViewController: UIViewController {
     ]
     var selectedBoard: Board?
     var monstController: MonstController?
-    
     let baseColor = UIColor.whiteColor()
     let mainColor = UIColor.init(red: 0, green: 0.3, blue: 1, alpha: 0.8)
-    let accentColor = UIColor.orangeColor()
+    let accentColor = ColorUtils.ACCENT_COLOR
+
+    var boardSelectListView: BoardSelectListView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +41,13 @@ class ViewController: UIViewController {
         titleLabel.text = "モンスト~クエスト検索~"
         titleLabel.font = UIFont.boldSystemFontOfSize(CGFloat(30))
         titleLabel.backgroundColor = mainColor
-        titleLabel.textColor = baseColor
+        titleLabel.textColor = ColorUtils.BASE_COLOR
         self.view.addSubview(titleLabel)
 
         questNameLabel.frame = CGRect(x: 10, y: 95, width: (viewWidht - 20), height: 50)
         questNameLabel.placeholder = "クエスト名"
         questNameLabel.layer.borderWidth = 1
-        questNameLabel.layer.borderColor = mainColor.CGColor
+        questNameLabel.layer.borderColor = ColorUtils.MAIN_COLOR.CGColor
         self.view.addSubview(questNameLabel)
         
         
@@ -63,6 +64,14 @@ class ViewController: UIViewController {
         stopButton.hidden = true
         stopButton.backgroundColor = UIColor.redColor()
         self.view.addSubview(stopButton)
+
+        self.boardSelectListView = BoardSelectListView(frame: CGRect(
+            x: 20,
+            y: 190,
+            width: (viewWidht - 40),
+            height: viewHeight - 200 - 190
+        ))
+        self.view.addSubview(self.boardSelectListView!)
         
         startSerachButton.frame = CGRect(x: 0, y: (viewHeight - 60), width: viewWidht, height: 60)
         startSerachButton.setTitle("検索開始！", forState: .Normal)
@@ -74,7 +83,6 @@ class ViewController: UIViewController {
         webView.hidden = true
         self.view.addSubview(webView)
         
-        setBoardButtons(190, buttom: (viewHeight - 200), width: viewWidht - 40)
         self.monstController = MonstController(webView: webView, isSearchLabel: isSearchLabel, stopButton: stopButton)
     }
 
@@ -84,8 +92,10 @@ class ViewController: UIViewController {
     }
 
     func onClickStartSearchButton(sender: UIButton) {
-        if let board = self.selectedBoard {
-            monstController!.startSearch(board.url, questName: questNameLabel.text!)
+        let selectedBoards = self.boardSelectListView!.getSelectedBoardList()
+        
+        if selectedBoards.count > 0 {
+            monstController!.startSearch(selectedBoards.first!.url, questName: questNameLabel.text!)
         } else {
             let alertController = UIAlertController(title: "エラー", message: "クエストを選択してください。", preferredStyle: .Alert)
             
@@ -96,46 +106,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapScreen(sender: UITapGestureRecognizer) {
-        self.view.endEditing(true)
-    }
-    
-    func setBoardButtons(top: CGFloat, buttom: CGFloat, width: CGFloat) {
-        let addHeight = CGFloat(40)
-        var height = top
-        for board in boardList{
-            let boardButton = UIButton()
-            boardButton.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
-            height += addHeight
-            boardButton.setTitleColor(accentColor, forState:  UIControlState.Normal)
-            boardButton.setTitle(board.name, forState: .Normal)
-            boardButton.contentHorizontalAlignment = .Left
-            boardButton.addTarget(self, action: "setSelectedBoardName:", forControlEvents: .TouchUpInside);
-            self.view.addSubview(boardButton)
-            board.setButton(boardButton)
-        }
-        selectedBoardLabel.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
-        selectedBoardLabel.font = UIFont.systemFontOfSize(CGFloat(20))
-        selectedBoardLabel.text = "選択中："
-        selectedBoardLabel.textColor = mainColor
-        self.view.addSubview(selectedBoardLabel)
-        height += addHeight
-
-        isSearchLabel.frame = CGRect(x: 40, y: height, width: width, height: addHeight)
-        isSearchLabel.font = UIFont.boldSystemFontOfSize(CGFloat(20))
-        isSearchLabel.textColor = accentColor
-        isSearchLabel.textAlignment = .Center
-        self.view.addSubview(isSearchLabel)
-    }
-   
-    func setSelectedBoardName(sender: UIButton) {
-        for board in boardList {
-            if(board.getButton() == sender) {
-                self.selectedBoard = board
-            }
-        }
-        if let boardName = self.selectedBoard?.name {
-            self.selectedBoardLabel.text = "選択中：" + boardName;
-        }
         self.view.endEditing(true)
     }
     
