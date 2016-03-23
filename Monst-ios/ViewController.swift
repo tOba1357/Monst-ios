@@ -7,12 +7,10 @@
 //
 
 import UIKit
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, MonstControllerDelegate {
     let titleLabel = UILabel()
     let questNameLabel = UITextField()
     let boardListLabel = UILabel()
-    let selectedBoardLabel = UILabel()
-    let isSearchLabel = UILabel()
     let startSerachButton = UIButton()
     let stopButton = UIButton()
     let webView = UIWebView()
@@ -77,7 +75,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         webView.hidden = true
         self.view.addSubview(webView)
         
-        self.monstController = MonstController(webView: webView, isSearchLabel: isSearchLabel, stopButton: stopButton)
+        self.monstController = MonstController(delegate: self, webView: webView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,6 +85,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     func onClickStartSearchButton(sender: UIButton) {
         if let board = self.boardSelectListView!.getSelectedBoard() {
+            self.boardSelectListView?.setLock(true)
+            self.questNameLabel.userInteractionEnabled = false
+            self.stopButton.hidden = false
             monstController!.startSearch(board.url, questName: questNameLabel.text!)
         } else {
             let alertController = UIAlertController(title: "エラー", message: "クエストを選択してください。", preferredStyle: .Alert)
@@ -108,5 +109,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
+    }
+    
+    func onEndSearch() {
+        self.boardSelectListView?.setLock(false)
+        self.questNameLabel.userInteractionEnabled = true
+        self.stopButton.hidden = true
     }
 }

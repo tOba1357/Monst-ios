@@ -9,10 +9,14 @@
 import Alamofire
 import APIKit
 
+protocol MonstControllerDelegate: NSObjectProtocol {
+    func onEndSearch()
+}
+
+
 class MonstController: NSObject {
+    let delegate: MonstControllerDelegate?
     let webView: UIWebView
-    let isSearchLabel: UILabel
-    let stopButton: UIButton
     
     var url: String = ""
     var questName: String = ""
@@ -26,23 +30,22 @@ class MonstController: NSObject {
     
     var cal: [String] = []
     
-    init(webView: UIWebView, isSearchLabel: UILabel, stopButton: UIButton) {
+    init(delegate: MonstControllerDelegate, webView: UIWebView) {
         self.webView = webView
-        self.isSearchLabel = isSearchLabel
-        self.stopButton = stopButton
+        self.delegate = delegate
     }
     
     func startSearch(url: String ,questName: String) {
         self.questName = questName
         self.url = url
-        stopTimer()
-        searchQuest()
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "searchQuest", userInfo: nil, repeats: true)
+        
+        if (!isRunTask()) {
+            searchQuest()
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "searchQuest", userInfo: nil, repeats: true)
+        }
     }
     
     func searchQuest() {
-        self.isSearchLabel.text = "検索中"
-        self.stopButton.hidden = false
         if (self.task != nil) {
             return
         }
@@ -82,13 +85,19 @@ class MonstController: NSObject {
     }
     
     func stopTimer() {
-        isSearchLabel.text = ""
-        self.stopButton.hidden = true
-        if let timer = timer {
+        if isRunTask() {
+            self.timer?.invalidate()
+        }
+        self.delegate?.onEndSearch()
+    }
+    
+    func isRunTask() -> Bool {
+        if let timer = self.timer {
             if timer.valid {
-                timer.invalidate()
+                return true
             }
         }
+        return false
     }
     
     func fomatData(res:NSURLResponse?,data:NSData?,error:NSError?) {

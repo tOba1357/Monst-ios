@@ -12,6 +12,7 @@ class BoardSelectListView :UIView, BoardSelectViewDelegate {
     
     var selectedBoradIndex: Int?
     var boardViews: [BoardSelectView] = []
+    var locked = false
 
     
     override init(frame: CGRect) {
@@ -20,11 +21,13 @@ class BoardSelectListView :UIView, BoardSelectViewDelegate {
     }
     
     func onClickBoard(tag: Int) {
-        if let index = self.selectedBoradIndex {
-            self.boardViews[index].setCheckMarkToVisible(false)
+        if(!self.locked) {
+            if let index = self.selectedBoradIndex {
+                self.boardViews[index].setCheckMarkToVisible(false)
+            }
+            self.selectedBoradIndex = tag
+            self.boardViews[tag].setCheckMarkToVisible(true)
         }
-        self.selectedBoradIndex = tag
-        self.boardViews[tag].setCheckMarkToVisible(true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,5 +54,9 @@ class BoardSelectListView :UIView, BoardSelectViewDelegate {
             return self.boardList[index]
         }
         return nil
+    }
+    
+    internal func setLock(locked: Bool) {
+        self.locked = locked
     }
 }
