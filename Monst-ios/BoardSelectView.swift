@@ -1,30 +1,18 @@
-//
-//  QuestSelectView.swift
-//  Monst-ios
-//
-//  Created by Tatsuya Oba on 2016/03/21.
-//  Copyright © 2016年 Tatsuya Oba. All rights reserved.
-//
-
 import UIKit
 
 protocol BoardSelectViewDelegate: NSObjectProtocol {
-    func onClickBoard(board: Board, selected: Bool)
+    func onClickBoard(tag: Int)
 }
 
 class BoardSelectView: UIView  {
     let checkImage = UIImage(named: "check")
     var checkImageView: UIImageView?
     var titleLabel: UILabel?
-    var board: Board?
     var delegate: BoardSelectViewDelegate?
     
-    var selected: Bool = false
-    
-    init(delegate: BoardSelectViewDelegate ,frame: CGRect, board: Board) {
+    init(delegate: BoardSelectViewDelegate ,frame: CGRect, titleName: String) {
         super.init(frame: frame)
         self.delegate = delegate
-        self.board = board
         
         self.checkImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         self.checkImageView!.image = self.checkImage
@@ -39,7 +27,7 @@ class BoardSelectView: UIView  {
             height: 20
         ))
         self.titleLabel!.textColor = ColorUtils.ACCENT_COLOR
-        self.titleLabel!.text = board.name
+        self.titleLabel!.text = titleName
         self.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(20))
         self.addSubview(self.titleLabel!)
         
@@ -51,12 +39,10 @@ class BoardSelectView: UIView  {
     }
     
     func onClickBoard(sender: UITapGestureRecognizer) {
-        self.selected = !self.selected
-        setCheckMarkToVisible(self.selected)
-        delegate?.onClickBoard(self.board!, selected: self.selected)
+        delegate?.onClickBoard(self.tag)
     }
     
-    func setCheckMarkToVisible(visible: Bool) {
+    internal func setCheckMarkToVisible(visible: Bool) {
         self.checkImageView!.hidden = !visible
     }
 }

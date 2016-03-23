@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     let titleLabel = UILabel()
     let questNameLabel = UITextField()
     let boardListLabel = UILabel()
@@ -16,14 +16,6 @@ class ViewController: UIViewController {
     let startSerachButton = UIButton()
     let stopButton = UIButton()
     let webView = UIWebView()
-    let boardList = [
-        Board(name:"運極限定", url: "http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/3"),
-        Board(name:"曜日・亀・タス", url:"http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/33"),
-        Board(name:"降臨攻略", url:"http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/4"),
-        Board(name:"何でも", url:"http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/2"),
-        Board(name:"神殿", url:"http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/12"),
-        Board(name: "極みクエスト", url: "http://xn--eckwa2aa3a9c8j8bve9d.gamewith.jp/bbs/matching/threads/show/11")
-    ]
     var selectedBoard: Board?
     var monstController: MonstController?
     let baseColor = UIColor.whiteColor()
@@ -48,6 +40,8 @@ class ViewController: UIViewController {
         questNameLabel.placeholder = "クエスト名"
         questNameLabel.layer.borderWidth = 1
         questNameLabel.layer.borderColor = ColorUtils.MAIN_COLOR.CGColor
+        questNameLabel.returnKeyType = .Done
+        questNameLabel.delegate = self
         self.view.addSubview(questNameLabel)
         
         
@@ -92,10 +86,8 @@ class ViewController: UIViewController {
     }
 
     func onClickStartSearchButton(sender: UIButton) {
-        let selectedBoards = self.boardSelectListView!.getSelectedBoardList()
-        
-        if selectedBoards.count > 0 {
-            monstController!.startSearch(selectedBoards.first!.url, questName: questNameLabel.text!)
+        if let board = self.boardSelectListView!.getSelectedBoard() {
+            monstController!.startSearch(board.url, questName: questNameLabel.text!)
         } else {
             let alertController = UIAlertController(title: "エラー", message: "クエストを選択してください。", preferredStyle: .Alert)
             
@@ -111,5 +103,10 @@ class ViewController: UIViewController {
     
     func onCLickStopButton(sender: UIButton) {
         self.monstController!.stopTimer()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 }
